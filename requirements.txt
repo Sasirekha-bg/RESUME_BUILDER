@@ -1,0 +1,10 @@
+streamlit
+langgraph
+python-docx
+pdfkit
+python-multipart
+groq
+langchain-groq 
+streamlit_tags
+scikit-learn 
+reportlab
