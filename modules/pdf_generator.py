@@ -5,58 +5,85 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 
 def generate_pdf(resume_data):
-    """Generate PDF from resume data"""
+    """Generate fresher-friendly PDF resume"""
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     styles = getSampleStyleSheet()
     
-    # Create custom styles without adding to global stylesheet
+    # Custom Styles
     title_style = ParagraphStyle(
         name='ResumeTitle',
         parent=styles['Heading1'],
-        fontSize=24,
-        alignment=1,  # Center alignment
-        spaceAfter=20,
+        fontSize=20,
+        alignment=1,
         textColor=colors.darkblue
     )
     
     section_style = ParagraphStyle(
         name='ResumeSection',
         parent=styles['Heading2'],
-        fontSize=14,
+        fontSize=12,
         spaceBefore=12,
-        spaceAfter=6,
         textColor=colors.darkslategray
     )
     
     content = []
     
-    # Name with custom style
-    content.append(Paragraph(resume_data['name'], title_style))
-    
-    # Summary
-    if resume_data['summary']:
-        content.append(Paragraph("Professional Summary", section_style))
-        content.append(Paragraph(resume_data['summary'], styles['BodyText']))
-        content.append(Spacer(1, 12))
-    
-    # Experience
-    content.append(Paragraph("Work Experience", section_style))
-    for exp in resume_data['experiences']:
-        exp_text = f"<b>{exp['title']}</b> - {exp['company']} ({exp['duration']})"
-        content.append(Paragraph(exp_text, styles['BodyText']))
+    # Header Section
+    personal = resume_data['personal_details']
+    header_text = f"{personal['name']}<br/>" \
+                f"<font size=10>{personal['email']} | {personal['phone']}<br/>" \
+                f"LinkedIn: {personal['linkedin']} | GitHub: {personal['github']}</font>"
+    content.append(Paragraph(header_text, title_style))
+    content.append(Spacer(1, 20))
+
+    # Education
+    content.append(Paragraph("Education", section_style))
+    for edu in resume_data['education']:
+        edu_text = f"<b>{edu['degree']}</b><br/>" \
+                  f"{edu['university']}<br/>" \
+                  f"CGPA/Percentage: {edu['cgpa']} | Duration: {edu['duration']}"
+        content.append(Paragraph(edu_text, styles['BodyText']))
+        content.append(Spacer(1, 10))
+
+    # Internships
+    if resume_data['internships']:
+        content.append(Paragraph("Internships", section_style))
+        for intern in resume_data['internships']:
+            intern_text = f"<b>{intern['role']}</b> at {intern['company']} ({intern['duration']})<br/>" \
+                         f"{intern['description']}"
+            content.append(Paragraph(intern_text, styles['BodyText']))
+            content.append(Spacer(1, 8))
+
+    # Projects
+    content.append(Paragraph("Projects", section_style))
+    for project in resume_data['projects']:
+        proj_text = f"<b>{project['title']}</b>"
+        if project['github_link']:
+            proj_text += f" [<link href='{project['github_link']}>GitHub</link>]"
+        proj_text += f"<br/>Technologies: {', '.join(project['technologies'])}<br/>{project['description']}"
+        content.append(Paragraph(proj_text, styles['BodyText']))
         content.append(Spacer(1, 8))
+
+    # Skills & Achievements
+    cols = [content]
+    skills_col, achiev_col = [], []
     
-    # Skills
-    content.append(Paragraph("Technical Skills", section_style))
-    skills = ListFlowable(
-        [Paragraph(f"<bullet>&bull;</bullet> {skill}", styles['BodyText']) 
-         for skill in resume_data['skills']],
-        bulletType='bullet',
-        leftIndent=20
-    )
-    content.append(skills)
+    skills_col.append(Paragraph("Technical Skills", section_style))
+    skills_col.append(ListFlowable(
+        [Paragraph(skill, styles['BodyText']) for skill in resume_data['skills']],
+        bulletType='bullet'
+    ))
     
+    achiev_col.append(Paragraph("Achievements", section_style))
+    achiev_col.append(ListFlowable(
+        [Paragraph(achiev, styles['BodyText']) for achiev in resume_data['achievements']],
+        bulletType='bullet'
+    ))
+    
+    content.append(Spacer(1, 10))
+    content.append(ParallelFlowable([skills_col, achiev_col], [400, 400]))
+
     doc.build(content)
     buffer.seek(0)
     return buffer.getvalue()
