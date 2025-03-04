@@ -10,7 +10,8 @@ def collect_resume_data():
             'email': '',
             'phone': '',
             'linkedin': '',
-            'github': ''
+            'github': '',
+            'location':''
         },
         'education': [],
         'internships': [],
@@ -31,7 +32,7 @@ def collect_resume_data():
             resume['personal_details']['phone'] = st.text_input("Phone Number")
             resume['personal_details']['linkedin'] = st.text_input("LinkedIn URL")
         resume['personal_details']['github'] = st.text_input("GitHub URL")
-
+        resume['personal_details']['location'] = st.text_input("Location")
         # Education Section
         st.header("🎓 Education")
         edu_cols = st.columns([3, 2, 2])
