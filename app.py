@@ -10,8 +10,6 @@ st.title("AI-Powered ATS Resume Builder")
 with st.expander("Build Your Resume"):
     resume_data = collect_resume_data()  # Direct function call
 
-# Rest of your code...
-
 # JD Analysis Section
 jd = st.text_area("Paste Job Description")
 if jd and resume_data:

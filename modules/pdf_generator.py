@@ -37,6 +37,13 @@ def generate_pdf(resume_data):
     content.append(Paragraph(header_text, title_style))
     content.append(Spacer(1, 20))
 
+    # Add Profile Summary if exists
+    if resume_data['summary']:
+        content.append(Paragraph("Profile Summary", section_style))
+        summary_text = f'<i>{resume_data["summary"]}</i>'  # Italicize summary
+        content.append(Paragraph(summary_text, styles['BodyText']))
+        content.append(Spacer(1, 15))  # Add space after section
+
     # Education
     content.append(Paragraph("Education", section_style))
     for edu in resume_data['education']:

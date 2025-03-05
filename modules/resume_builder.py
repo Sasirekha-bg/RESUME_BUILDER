@@ -13,6 +13,7 @@ def collect_resume_data():
             'github': '',
             'location':''
         },
+        'summary': '', 
         'education': [],
         'internships': [],
         'projects': [],
@@ -30,9 +31,18 @@ def collect_resume_data():
             resume['personal_details']['email'] = st.text_input("Email")
         with col2:
             resume['personal_details']['phone'] = st.text_input("Phone Number")
-            resume['personal_details']['linkedin'] = st.text_input("LinkedIn URL")
-        resume['personal_details']['github'] = st.text_input("GitHub URL")
+            resume['personal_details']['linkedin'] = st.text_input("LinkedIn")
+        resume['personal_details']['github'] = st.text_input("GitHub")
         resume['personal_details']['location'] = st.text_input("Location")
+        # Profile Summary Section
+        st.header("📝 Profile Summary/Objective")
+        resume['summary'] = st.text_area(
+            "Write a brief summary (2-3 lines) or career objective:",
+            placeholder="Example: 'Recent Computer Science graduate with hands-on experience in Python and ML. "
+                        "Awarded Best Final Year Project for AI-powered inventory system. Seeking to apply...'",
+            max_chars=300,
+            help="Focus on key achievements, skills, and career goals"
+        )
         # Education Section
         st.header("🎓 Education")
         edu_cols = st.columns([3, 2, 2])
