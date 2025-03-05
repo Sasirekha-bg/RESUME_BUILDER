@@ -1,6 +1,6 @@
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, ListFlowable
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, ListFlowable, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 
@@ -89,7 +89,16 @@ def generate_pdf(resume_data):
     ))
     
     content.append(Spacer(1, 10))
-    content.append(ParallelFlowable([skills_col, achiev_col], [400, 400]))
+    
+
+    # Assuming skills_col and achiev_col are already defined as flowables (like Paragraphs)
+    data = [[skills_col, achiev_col]]
+
+    # Create a table with two equal-width columns
+    table = Table(data, colWidths=[200, 200])  # Adjust widths as needed
+    # Add the table to the content
+    content.append(table)
+
 
     doc.build(content)
     buffer.seek(0)
