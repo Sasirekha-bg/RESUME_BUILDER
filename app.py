@@ -4,7 +4,7 @@ from modules.resume_builder import collect_resume_data  # Correct import
 from modules.ats_analyzer import evaluate_resume, auto_improve
 from modules.pdf_generator import generate_pdf
 
-st.title("AI-Powered ATS Resume Builder")
+st.title("Resume Builder")
 
 # Resume Creation Section
 with st.expander("Build Your Resume"):
