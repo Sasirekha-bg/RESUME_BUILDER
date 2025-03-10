@@ -14,9 +14,7 @@ RESUME_BUILDER is an AI-powered, applicant tracking system (ATS)-friendly resume
     ```
 3. Create and activate a virtual environment (optional but recommended):
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # For Linux/Mac
-    venv\Scripts\activate     # For Windows
+   conda create -p venv python==3.12
     ```
 4. Install the dependencies:
     ```bash
@@ -44,6 +42,14 @@ RESUME_BUILDER is an AI-powered, applicant tracking system (ATS)-friendly resume
 - **Automated Resume Improvement:** Suggests enhancements tailored to the job role.
 - **PDF Resume Generation:** Creates clean, professional resumes ready for job applications.
 - **User-Friendly Interface:** Built with Streamlit for intuitive form-based input.
+
+## Tech Stack
+- **Programming Language:** Python
+- **Web Framework:** Streamlit
+- **Machine Learning:** scikit-learn
+- **PDF Generation:** ReportLab
+- **Environment Management:** virtualenv
+- **API Integration:** OpenAI API (or GROQ API)
 
 ## Folder Structure
 ```
@@ -74,6 +80,4 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes.
 4. Push the changes to your fork.
 5. Submit a pull request.
-
-
 
